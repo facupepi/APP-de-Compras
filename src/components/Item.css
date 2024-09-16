@@ -1,9 +1,5 @@
 /* Estilo para el popup */
 
-.contenido-popup {
-    text-align: center;
-}
-
 .ventana-popup {
     position: fixed;
     top: 50%;
@@ -16,16 +12,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .contenido-popup {
+}
+
+.contenido-popup {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     max-width: 400px;
     width: 100%;
-  }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 /* Estilo para cada tarea (item) */
 .div_item {
@@ -40,9 +39,8 @@
     transition: box-shadow 0.2s ease-in-out;
     font-size: calc(10px + 1vmin);
 }
-
 .div_item:hover {
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.565);
 }
 
 .div_item_info {
@@ -52,12 +50,25 @@
     align-items: center;
 }
 
-.div_item_buttons{
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.button_info_item {
+    font-size: calc(5px + 2vmin);
+    width: 30%;
+    background-color: lightblue;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.2s ease-in-out;
+    width: 100%;
+}
+
+.button_info_item:hover {
+    background-color: rgb(0, 191, 255);
 }
 
 /* Estilo para los botones de modificar */
@@ -66,4 +77,12 @@
 }
 .modify-button-popup:hover {
     background-color: #388e3c;
+}
+
+/* Estilo para los botones de cancelar */
+.cancel-button-popup {
+    background-color: lightcoral;
+}
+.cancel-button-popup:hover {
+    background-color: red;
 }

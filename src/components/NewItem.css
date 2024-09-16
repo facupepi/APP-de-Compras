@@ -3,23 +3,15 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: fit-content;
 }
 
-.div_quantity_newItem,.div_quantity_newItem_input,.div_newItem_input{
+.form-group{
     display: flex;
     flex-direction: row;
     width: 100%;
-    margin-bottom: 10px;
     align-items: center;
-    justify-content: center;
-}
-
-.div_quantity_newItem{
-    flex-direction: column;
-}
-
-.div_quantity_newItem_input{
-    justify-content: space-between;
+    justify-content: flex-end;
 }
 
 .input_NewItem{
@@ -31,7 +23,6 @@
 
 .buttonPlus_newItem{
     font-size: calc(5px + 2vmin);
-    width: 30%;
     background-color: lightgreen;
 }
 
@@ -41,7 +32,6 @@
 
 .buttonMinus_newItem{
     font-size: calc(5px + 2vmin);
-    width: 30%;
     background-color: lightcoral;
 }
 

@@ -1,10 +1,9 @@
 import {useState} from 'react';
 import './App.css';
+import {validateItem} from './components/aditional_functions.js'
 import {NewItem} from './components/NewItem.js';
 import {Item} from './components/Item.js';
-
-// Variable global para mantener el ID único de cada item
-let id = 0;
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
     // Estado para mantener la lista de items
@@ -19,8 +18,7 @@ function App() {
         let quantity = formData_Item.get("quantityItem"); // Obtiene el valor del campo "quantityItem"
 
         // Actualiza el estado 'list' añadiendo un nuevo objeto con id, nombre y cantidad
-        setList([...list, {id,name,quantity}]);
-        id++; // Incrementa el ID global para el próximo item
+        setList([...list, {id: uuidv4(),name,quantity}]);
         e.target.reset(); // Resetea el formulario después de añadir el item
     }
 
@@ -39,19 +37,17 @@ function App() {
         const formData_Item = new FormData(e.target); // Crea un objeto FormData para obtener los datos del formulario
         let name = formData_Item.get("nameItem"); // Obtiene el valor del campo "nameItem"
         let quantity = formData_Item.get("quantityItem"); // Obtiene el valor del campo "quantityItem"
-
-        console.log(`Modificando item: ${name} con id ${id} y cantidad ${quantity}`);
-
-        // Actualiza el estado 'list', modificando el item con el ID correspondiente
-        setList((prevList) => prevList.map((item) => (item.id === id
-            ? {
-                ...item,
-                name,
-                quantity
-            }
-            : item)));
-
-        closePopup();
+        
+        if (validateItem(name, quantity)){
+            // Actualiza el estado 'list', modificando el item con el ID correspondiente
+            console.log(`Modificando item: ${name} con id ${id} y cantidad ${quantity}`);
+            setList((prevList) => prevList.map((item) => 
+                (item.id === id
+                ? {...item,name,quantity}
+                : item)));
+            closePopup();
+        }
+        else return;
     }
 
     return (
