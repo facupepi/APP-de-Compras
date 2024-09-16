@@ -16,18 +16,17 @@ function App() {
         const formData_Item = new FormData(e.target); // Crea un objeto FormData para obtener los datos del formulario
         let name = formData_Item.get("nameItem"); // Obtiene el valor del campo "nameItem"
         let quantity = formData_Item.get("quantityItem"); // Obtiene el valor del campo "quantityItem"
+        let isChecked = false; // Campo para saber si un item fue comprado o no;
 
         // Actualiza el estado 'list' añadiendo un nuevo objeto con id, nombre y cantidad
-        setList([...list, {id: uuidv4(),name,quantity}]);
+        setList([...list, {id: uuidv4(),name,quantity,isChecked}]);
         e.target.reset(); // Resetea el formulario después de añadir el item
     }
 
     // Función para eliminar un item de la lista
     function DeleteItemToList(id) {
-        return function () {
-            // Filtra la lista de items, excluyendo el item con el ID proporcionado
-            setList(list.filter(item => item.id !== id));
-        };
+        // Filtra la lista de items, excluyendo el item con el ID proporcionado
+        setList(list.filter(item => item.id !== id));
     }
 
     // Función para modificar un item existente en la lista
@@ -48,6 +47,26 @@ function App() {
             closePopup();
         }
         else return;
+    }
+
+    // Función para confirmar item comprado de la lista (tachar)
+    function checkItem(id) {
+        console.log("Check!");
+        setList((prevList) => {
+            // Actualizamos el valor de isChecked para el item con el id correspondiente
+            const updatedList = prevList.map((item) => 
+                item.id === id 
+                ? { ...item, isChecked: !item.isChecked }
+                : item
+            );
+    
+            // Luego reorganizamos la lista para mover los items con isChecked: true al final
+            const uncheckedItems = updatedList.filter(item => !item.isChecked); // Items no checkeados
+            const checkedItems = updatedList.filter(item => item.isChecked);   // Items checkeados
+    
+            // Devolvemos la lista reorganizada
+            return [...uncheckedItems, ...checkedItems];
+        });
     }
 
     return (
@@ -71,6 +90,7 @@ function App() {
                             item={item_map} // Pasa el item como propiedad al componente
                             DeleteItemToList_Callback={DeleteItemToList} // Pasa la función de eliminación como propiedad
                             ModifyItemToList_Callback={(e, closePopup) => ModifyItemToList(e, item_map.id, closePopup)} // Pasa la función de modificación como propiedad
+                            checkItem_Callback={checkItem}// Pasa la función de checkItem como propiedad
                         />))             
                     }
             </ul>

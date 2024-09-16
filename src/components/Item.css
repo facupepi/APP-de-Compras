@@ -1,29 +1,46 @@
-/* Estilo para el popup */
-
+/* Animación para que el pop-up aparezca suavemente */
 .ventana-popup {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 100px 90px;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+/* Cuando el pop-up está visible */
+.ventana-popup.show {
+    opacity: 1;
+    visibility: visible;
 }
 
 .contenido-popup {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
-    width: 100%;
+    width: 300px;
+    animation: slideDown 0.5s ease-in-out;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
+    /* Aparece deslizándose hacia abajo */
+}
+
+/* Animación para que el contenido del pop-up aparezca deslizándose */
+@keyframes slideDown {
+    0% {
+        transform: translateY(-50%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 /* Estilo para cada tarea (item) */
@@ -52,7 +69,7 @@
 
 .button_info_item {
     font-size: calc(5px + 2vmin);
-    width: 30%;
+    min-width: 50px;
     background-color: lightblue;
     border: none;
     color: white;
@@ -66,7 +83,6 @@
     transition: background-color 0.2s ease-in-out;
     width: 100%;
 }
-
 .button_info_item:hover {
     background-color: rgb(0, 191, 255);
 }
@@ -85,4 +101,8 @@
 }
 .cancel-button-popup:hover {
     background-color: red;
+}
+
+.h3-item-checked {
+    text-decoration:line-through;
 }

@@ -1,7 +1,7 @@
 import './Item.css';
 import {useState} from 'react';
 
-export function Item({item, DeleteItemToList_Callback, ModifyItemToList_Callback}) {
+export function Item({item, DeleteItemToList_Callback, ModifyItemToList_Callback, checkItem_Callback}) {
     // Estado para controlar la visibilidad del popup de modificación
     const [isPopupOpen,
         setPopupOpen] = useState(false);
@@ -24,21 +24,28 @@ export function Item({item, DeleteItemToList_Callback, ModifyItemToList_Callback
             {console.log("El item que esta llegando a Item es: " + JSON.stringify(item))}
 
             <div className='div_item_info'>
-                <h3>Producto: {item.name} </h3>
-                <h3>Cantidad: {item.quantity}</h3>
+                <h3 className={`${item.isChecked ? 'h3-item-checked' : ''}`}>Producto: {item.name} </h3>
+                <h3 className={`${item.isChecked ? 'h3-item-checked' : ''}`}>Cantidad: {item.quantity}</h3>
             </div>
 
             <div>
-                {/* Botón para eliminar el item */}
-                <button className='button_info_item' onClick={DeleteItemToList_Callback(item.id)}>Eliminar</button>
+                {item.isChecked 
+                    ? <button className='button_info_item' onClick={() => checkItem_Callback(item.id)}><i className="fa-solid fa-arrow-turn-up"></i></button>
+                    /* Botón para devolver item a lista de compras */
+                    : <button className='button_info_item' onClick={() => checkItem_Callback(item.id)}><i className="fa-solid fa-check"></i></button>
+                    /* Botón para confirmar item comprado */}
 
+                
                 {/* Botón para abrir el popup de modificación */}
-                <button className='button_info_item' onClick={openPopup}>Modificar</button>
+                <button className='button_info_item' onClick={openPopup}><i className="fa-solid fa-pen"></i></button>
+
+                {/* Botón para eliminar el item */}
+                <button className='button_info_item' onClick={() => DeleteItemToList_Callback(item.id)}><i className="fa-solid fa-trash"></i></button>
             </div>
 
             {/* Mostrar popup solo si isPopupOpen es true */}
             {isPopupOpen && (
-                <div className="ventana-popup">
+                <div className={`ventana-popup ${isPopupOpen ? 'show' : ''}`}>
                     <div className="contenido-popup">
                         {/* Formulario de modificación de item */}
                         <form id="newItemForm" onSubmit={(e) => ModifyItemToList_Callback(e, closePopup)}>
@@ -61,7 +68,7 @@ export function Item({item, DeleteItemToList_Callback, ModifyItemToList_Callback
                             </div>
 
                             {/* Botón para confirmar la modificación */}
-                            <button className='button_info_item modify-button-popup'>Modificar Item</button>
+                            <button className='button_info_item modify-button-popup'>Guardar Cambios</button>
                             {/* Botón para cerrar el popup */}
                             <button className='button_info_item cancel-button-popup' onClick={closePopup}>Cancelar</button>
                         </form>
