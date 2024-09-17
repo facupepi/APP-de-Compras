@@ -4,7 +4,6 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 25px;
     margin: 25px;
     gap: 20px;
     background-color: #f9f9f9;
@@ -25,7 +24,7 @@
     flex-direction: row;
     width: 50%;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
 }
 
 .input_NewItem{

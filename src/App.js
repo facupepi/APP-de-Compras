@@ -115,61 +115,63 @@ function App() {
             </header>
 
             <div className="App">
-                {/* Componente para crear una nueva lista */}
-                <NewList addNewListToArrayofLists_Callback={addNewList} />
+                <div className='container'>
+                    {/* Componente para crear una nueva lista */}
+                    <NewList addNewListToArrayofLists_Callback={addNewList} />
 
-                {/* Mostrar mensaje si no hay listas, o el selector si hay listas */}
-                {arrayOfLists.length === 0 
-                ? (
-                    <div className="div_NoItems">
-                        <p className="p_App_NoItems">No hay ninguna lista que mostrar...</p>
-                        <img src="/img/loader2.svg" alt="Loader" />
-                    </div>
-                ) 
-                : (
-                    <div>
-                        <h2>SELECCIONE UNA LISTA</h2>
-                        <select name="selectList" value={selectedList} onChange={handleSelectChange}>
-                            {arrayOfLists.map((listMap) => (
-                                <option key={listMap.nameList} value={listMap.nameList}>
-                                    {listMap.nameList}
-                                </option>
-                            ))}
-                        </select>
+                    {/* Mostrar mensaje si no hay listas, o el selector si hay listas */}
+                    {arrayOfLists.length === 0 
+                    ? (
+                        <div className="div_NoItems">
+                            <p className="p_App_NoItems">No hay ninguna lista que mostrar...</p>
+                            <img src="/img/loader2.svg" alt="Loader" />
+                        </div>
+                    ) 
+                    : (
+                        <div>
+                            <h2>SELECCIONE UNA LISTA</h2>
+                            <select name="selectList" value={selectedList} onChange={handleSelectChange}>
+                                {arrayOfLists.map((listMap) => (
+                                    <option key={listMap.nameList} value={listMap.nameList}>
+                                        {listMap.nameList}
+                                    </option>
+                                ))}
+                            </select>
 
-                        {/* Botón para abrir el popup de modificación */}
-                        <button className='button_info_item button_modify' onClick={openPopup}><i className="fa-solid fa-pen"></i></button>
+                            {/* Botón para abrir el popup de modificación */}
+                            <button className='button_info_item button_modify' onClick={openPopup}><i className="fa-solid fa-pen"></i></button>
 
-                        {/* Botón para eliminar el item */}
-                        <button className='button_info_item button_delete' onClick={deleteList}><i className="fa-solid fa-trash"></i></button>
+                            {/* Botón para eliminar el item */}
+                            <button className='button_info_item button_delete' onClick={deleteList}><i className="fa-solid fa-trash"></i></button>
 
-                        {/* Mostrar popup solo si isPopupOpen es true */}
-                        {isPopupOpen && (
-                            <div className={`ventana-popup ${isPopupOpen ? 'show' : ''}`}>
-                                <div className="contenido-popup">
-                                    {/* Formulario de modificación de item */}
-                                    <form id="newItemForm" onSubmit={handleSubmit}>
-                                        <div>
-                                            <label htmlFor='nameList'>Lista:</label>
-                                            <input className='input_NewItem' name="nameList" id='nameList' placeholder='Lista...' maxLength={25} defaultValue={selectedList} />
-                                        </div>
+                            {/* Mostrar popup solo si isPopupOpen es true */}
+                            {isPopupOpen && (
+                                <div className={`ventana-popup ${isPopupOpen ? 'show' : ''}`}>
+                                    <div className="contenido-popup">
+                                        {/* Formulario de modificación de item */}
+                                        <form id="newItemForm" onSubmit={handleSubmit}>
+                                            <div>
+                                                <label htmlFor='nameList'>Lista:</label>
+                                                <input className='input_NewItem' name="nameList" id='nameList' placeholder='Lista...' maxLength={25} defaultValue={selectedList} />
+                                            </div>
 
-                                        {/* Botón para confirmar la modificación */}
-                                        <button type='submit' className='button_info_item modify-button-popup'>Guardar Cambios</button>
-                                        {/* Botón para cerrar el popup */}
-                                        <button type='button' className='button_info_item cancel-button-popup' onClick={closePopup}>Cancelar</button>
-                                    </form>
+                                            {/* Botón para confirmar la modificación */}
+                                            <button type='submit' className='modify-button-popup'>Guardar Cambios</button>
+                                            {/* Botón para cerrar el popup */}
+                                            <button type='button' className='cancel-button-popup' onClick={closePopup}>Cancelar</button>
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
-                        )}
+                            )}
 
-                        {/* Componente para mostrar la lista de ítems seleccionada */}
-                        <ActualList 
-                            items={selectedListItems} 
-                            updateItemsInList_Callback={updateItemsInList} 
-                        />
-                    </div>
-                )}
+                            {/* Componente para mostrar la lista de ítems seleccionada */}
+                            <ActualList 
+                                items={selectedListItems} 
+                                updateItemsInList_Callback={updateItemsInList} 
+                            />
+                        </div>
+                    )}
+                </div>
             </div>
 
             {console.table(arrayOfLists)}

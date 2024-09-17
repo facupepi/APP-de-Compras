@@ -42,11 +42,13 @@ export function Item({item, DeleteItemToList_Callback, ModifyItemToList_Callback
             {console.log("El item que esta llegando a Item es: " + JSON.stringify(item))}
 
             <div className='div_item_info'>
-                <h3 className={`${item.isChecked ? 'h3-item-checked' : ''}`}>Producto: {item.name} </h3>
-                <h3 className={`${item.isChecked ? 'h3-item-checked' : ''}`}>Cantidad: {item.quantity}</h3>
+                <h3   className={`${item.isChecked ? 'h3-item-checked' : ''}`}>Producto</h3>
+                <span className={`${item.isChecked ? 'h3-item-checked' : ''}`}>{item.name}</span>
+                <h3   className={`${item.isChecked ? 'h3-item-checked' : ''}`}>Cantidad</h3>
+                <span className={`${item.isChecked ? 'h3-item-checked' : ''}`}>{item.quantity}</span>
             </div>
 
-            <div>
+            <div className='div_item_buttons'>
                 {item.isChecked 
                     ? <button className='button_info_item button_checked' onClick={() => checkItem_Callback(item.id)}><i className="fa-solid fa-arrow-turn-up"></i></button>
                     /* Botón para devolver item a lista de compras */
@@ -83,9 +85,9 @@ export function Item({item, DeleteItemToList_Callback, ModifyItemToList_Callback
                             </div>
 
                             {/* Botón para confirmar la modificación */}
-                            <button type='submit' className='button_info_item modify-button-popup'>Guardar Cambios</button>
+                            <button type='submit' className='modify-button-popup'>Guardar Cambios</button>
                             {/* Botón para cerrar el popup */}
-                            <button className='button_info_item cancel-button-popup' onClick={closePopup}>Cancelar</button>
+                            <button className='cancel-button-popup' onClick={closePopup}>Cancelar</button>
                         </form>
                     </div>
                 </div>

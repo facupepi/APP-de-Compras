@@ -86,6 +86,7 @@ export default function ActualList({items,updateItemsInList_Callback}) {
                         <img src='/img/loader.svg' alt='Loader' />
                         </div>
                         :
+                        
                         list.map((item_map) => (
                         <Item key={item_map.id} // Clave única para cada componente Item
                             item={item_map} // Pasa el item como propiedad al componente

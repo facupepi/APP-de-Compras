@@ -17,7 +17,7 @@
     flex-direction: row;
     width: 100%;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
 }
 
 .input_NewList{
@@ -29,6 +29,7 @@
 
 .button_AddNewList{
     font-size: calc(5px + 2vmin);
+    width: fit-content;
     background-color: lightskyblue;
 }
 
