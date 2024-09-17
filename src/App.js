@@ -1,100 +1,179 @@
-import {useState} from 'react';
+import { useState, useCallback } from 'react';
+import ActualList from './components/ActualList';
+import NewList from './components/NewList';
 import './App.css';
-import {validateItem} from './components/aditional_functions.js'
-import {NewItem} from './components/NewItem.js';
-import {Item} from './components/Item.js';
-import { v4 as uuidv4 } from 'uuid';
 
 function App() {
-    // Estado para mantener la lista de items
-    const [list,setList] = useState([]);
+    const [arrayOfLists, setArrayOfLists] = useState([]);  // Estado que contiene todas las listas
+    const [selectedList, setSelectedList] = useState('');  // Estado para la lista seleccionada
+    const [selectedListItems, setSelectedListItems] = useState([]); // Items de la lista seleccionada
 
-    // Función para añadir un nuevo item a la lista
-    function addNewItemToList(e) {
+    // Estado para controlar la visibilidad del popup de modificación
+    const [isPopupOpen, setPopupOpen] = useState(false);
+
+    // Función para abrir el popup
+    const openPopup = () => setPopupOpen(true);
+    
+    // Función para cerrar el popup
+    const closePopup = () => setPopupOpen(false);
+    
+    const handleSubmit = (e) => {
         e.preventDefault(); // Previene el comportamiento por defecto del formulario (recargar la página)
-
+    
         const formData_Item = new FormData(e.target); // Crea un objeto FormData para obtener los datos del formulario
-        let name = formData_Item.get("nameItem"); // Obtiene el valor del campo "nameItem"
-        let quantity = formData_Item.get("quantityItem"); // Obtiene el valor del campo "quantityItem"
-        let isChecked = false; // Campo para saber si un item fue comprado o no;
-
-        // Actualiza el estado 'list' añadiendo un nuevo objeto con id, nombre y cantidad
-        setList([...list, {id: uuidv4(),name,quantity,isChecked}]);
-        e.target.reset(); // Resetea el formulario después de añadir el item
-    }
-
-    // Función para eliminar un item de la lista
-    function DeleteItemToList(id) {
-        // Filtra la lista de items, excluyendo el item con el ID proporcionado
-        setList(list.filter(item => item.id !== id));
-    }
-
-    // Función para modificar un item existente en la lista
-    function ModifyItemToList(e, id, closePopup) {
-        e.preventDefault(); // Previene el comportamiento por defecto del formulario (recargar la página)
-
-        const formData_Item = new FormData(e.target); // Crea un objeto FormData para obtener los datos del formulario
-        let name = formData_Item.get("nameItem"); // Obtiene el valor del campo "nameItem"
-        let quantity = formData_Item.get("quantityItem"); // Obtiene el valor del campo "quantityItem"
+        let name = formData_Item.get("nameList"); // Obtiene el valor del campo "nameList"
         
-        if (validateItem(name, quantity)){
-            // Actualiza el estado 'list', modificando el item con el ID correspondiente
-            console.log(`Modificando item: ${name} con id ${id} y cantidad ${quantity}`);
-            setList((prevList) => prevList.map((item) => 
-                (item.id === id
-                ? {...item,name,quantity}
-                : item)));
+        if (name === '') {
+            alert("Ingresa un nombre de lista no vacío...");
+        } else {
+            modifyNameList(name);
             closePopup();
         }
-        else return;
+    }
+    
+    const modifyNameList = (name) => {
+
+        setArrayOfLists(prevLists =>
+            prevLists.map(list => 
+                list.nameList === selectedList  // Compara el name
+                ? { ...list, nameList: name }  // Actualiza el nombre de la lista
+                : list
+            )
+        );
+
+        // También actualiza la lista seleccionada
+        setSelectedList(name);
+    }
+    
+    const deleteList = () => {
+
+        // Filtra la lista de listas para eliminar la lista seleccionada
+        const updatedLists = arrayOfLists.filter(list => list.nameList !== selectedList);
+
+        // Actualiza el estado con la lista filtrada
+        setArrayOfLists(updatedLists);
+
+        // Si el array queda vacío, limpia la lista seleccionada
+        if (updatedLists.length === 0) {
+            setSelectedList('');
+            setSelectedListItems([]);
+        } else {
+            // Si quedan listas, selecciona la primera lista disponible
+            setSelectedList(updatedLists[0].nameList);
+            setSelectedListItems(updatedLists[0].items);
+        }
+
     }
 
-    // Función para confirmar item comprado de la lista (tachar)
-    function checkItem(id) {
-        console.log("Check!");
-        setList((prevList) => {
-            // Actualizamos el valor de isChecked para el item con el id correspondiente
-            const updatedList = prevList.map((item) => 
-                item.id === id 
-                ? { ...item, isChecked: !item.isChecked }
-                : item
-            );
+    const addNewList = (nameNewList) => {
+        // Verificar si ya existe una lista con el mismo nombre
+        const foundList = arrayOfLists.find(list => list.nameList === nameNewList);
+        //Se usa find en lugar de filter porque find devuelve el primer elemento que cumple con la condición o undefined si no se encuentra ninguno. 
     
-            // Luego reorganizamos la lista para mover los items con isChecked: true al final
-            const uncheckedItems = updatedList.filter(item => !item.isChecked); // Items no checkeados
-            const checkedItems = updatedList.filter(item => item.isChecked);   // Items checkeados
-    
-            // Devolvemos la lista reorganizada
-            return [...uncheckedItems, ...checkedItems];
-        });
-    }
+        // Si ya existe una lista con el mismo nombre, no agregarla
+        if (foundList) {
+            return false;
+        }
+        else{
+            // Si no existe una lista con el mismo nombre, agregar la nueva lista
+            setArrayOfLists(prevLists => [
+                ...prevLists,
+                { nameList: nameNewList, items: [] }
+            ]);
+
+            // Si es la primera lista, seleccionarla por defecto
+            if (selectedList === '') setSelectedList(nameNewList);
+        return true;
+        } 
+    };
+
+    // Actualizar el estado cuando se selecciona una lista del dropdown
+    const handleSelectChange = (e) => {
+        const name = e.target.value;
+        setSelectedList(name);  // Actualizar la lista seleccionada
+
+        // Encontrar la lista seleccionada y actualizar sus ítems
+        const foundList = arrayOfLists.find(list => list.nameList === name);
+        setSelectedListItems(foundList.items);
+    };
+
+    // Función para actualizar los ítems de la lista seleccionada
+    const updateItemsInList = useCallback((newItems) => {
+        setArrayOfLists(prevLists =>
+            prevLists.map(list => 
+                list.nameList === selectedList 
+                ? { ...list, items: newItems } 
+                : list
+            )
+        );
+    }, [selectedList]);
 
     return (
-        <div className="App">
+        <div>
             <header className="App-header">
-                <h1>LISTA DE COMPRAS</h1>
-                {/* Componente para añadir un nuevo item */}
-                <NewItem addNewItemToList_Callback={addNewItemToList}/>
+                <h1>APP DE COMPRAS</h1>
             </header>
-            <ul>
-                {/* Mapea la lista de items para mostrar cada uno en un componente 'Item'*/
-                    list.length === 0 
-                        ?
-                        <div className='div_NoItems'>
-                        <p className='p_App_NoItems' >No hay items en la lista...</p>
-                        <img src='/img/loader.svg' alt='Loader' />
-                        </div>
-                        :
-                        list.map((item_map) => (
-                        <Item key={item_map.id} // Clave única para cada componente Item
-                            item={item_map} // Pasa el item como propiedad al componente
-                            DeleteItemToList_Callback={DeleteItemToList} // Pasa la función de eliminación como propiedad
-                            ModifyItemToList_Callback={(e, closePopup) => ModifyItemToList(e, item_map.id, closePopup)} // Pasa la función de modificación como propiedad
-                            checkItem_Callback={checkItem}// Pasa la función de checkItem como propiedad
-                        />))             
-                    }
-            </ul>
-            {console.table(list)} 
+
+            <div className="App">
+                {/* Componente para crear una nueva lista */}
+                <NewList addNewListToArrayofLists_Callback={addNewList} />
+
+                {/* Mostrar mensaje si no hay listas, o el selector si hay listas */}
+                {arrayOfLists.length === 0 
+                ? (
+                    <div className="div_NoItems">
+                        <p className="p_App_NoItems">No hay ninguna lista que mostrar...</p>
+                        <img src="/img/loader2.svg" alt="Loader" />
+                    </div>
+                ) 
+                : (
+                    <div>
+                        <h2>SELECCIONE UNA LISTA</h2>
+                        <select name="selectList" value={selectedList} onChange={handleSelectChange}>
+                            {arrayOfLists.map((listMap) => (
+                                <option key={listMap.nameList} value={listMap.nameList}>
+                                    {listMap.nameList}
+                                </option>
+                            ))}
+                        </select>
+
+                        {/* Botón para abrir el popup de modificación */}
+                        <button className='button_info_item button_modify' onClick={openPopup}><i className="fa-solid fa-pen"></i></button>
+
+                        {/* Botón para eliminar el item */}
+                        <button className='button_info_item button_delete' onClick={deleteList}><i className="fa-solid fa-trash"></i></button>
+
+                        {/* Mostrar popup solo si isPopupOpen es true */}
+                        {isPopupOpen && (
+                            <div className={`ventana-popup ${isPopupOpen ? 'show' : ''}`}>
+                                <div className="contenido-popup">
+                                    {/* Formulario de modificación de item */}
+                                    <form id="newItemForm" onSubmit={handleSubmit}>
+                                        <div>
+                                            <label htmlFor='nameList'>Lista:</label>
+                                            <input className='input_NewItem' name="nameList" id='nameList' placeholder='Lista...' maxLength={25} defaultValue={selectedList} />
+                                        </div>
+
+                                        {/* Botón para confirmar la modificación */}
+                                        <button type='submit' className='button_info_item modify-button-popup'>Guardar Cambios</button>
+                                        {/* Botón para cerrar el popup */}
+                                        <button type='button' className='button_info_item cancel-button-popup' onClick={closePopup}>Cancelar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Componente para mostrar la lista de ítems seleccionada */}
+                        <ActualList 
+                            items={selectedListItems} 
+                            updateItemsInList_Callback={updateItemsInList} 
+                        />
+                    </div>
+                )}
+            </div>
+
+            {console.table(arrayOfLists)}
+            {console.log('ME RECARGÉ')}
         </div>
     );
 }

@@ -1,5 +1,9 @@
 .App {
+  display: flex;
+  flex-direction: column;
   text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Estilos generales */
@@ -48,3 +52,38 @@ button {
   transition: background-color 0.2s ease-in-out;
   width: 100%;
 }
+
+/* Estilo para el select */
+select {
+  width: 100%; /* Ocupa todo el ancho disponible */
+  padding: 10px; /* Añade espacio interno para que se vea mejor */
+  border-radius: 5px; /* Bordes redondeados */
+  border: 2px solid #4CAF50; /* Color del borde */
+  font-size: 16px; /* Tamaño de letra */
+  background-color: #f8f8f8; /* Color de fondo */
+  color: #333; /* Color de texto */
+  outline: none; /* Quita el borde al hacer clic */
+  transition: all 0.3s ease; /* Transición suave al interactuar */
+}
+
+select:hover {
+  border-color: #45a049; /* Cambia el color del borde al pasar el mouse */
+}
+
+select:focus {
+  border-color: #45a049; /* Color del borde al enfocarse */
+  box-shadow: 0 0 5px rgba(0, 128, 0, 0.3); /* Sombra suave al hacer foco */
+}
+
+/* Estilo para las opciones del select */
+option {
+  padding: 10px; /* Espacio interno para las opciones */
+  background-color: #fff; /* Color de fondo de las opciones */
+  color: #333; /* Color del texto */
+}
+
+/* Opciones con hover en algunos navegadores */
+option:hover {
+  background-color: #eee; /* Cambia el color de fondo al pasar el mouse */
+}
+

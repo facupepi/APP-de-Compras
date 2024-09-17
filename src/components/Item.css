@@ -21,14 +21,8 @@
 }
 
 .contenido-popup {
-    background-color: white;
-    padding: 20px;
     border-radius: 10px;
-    width: 300px;
     animation: slideDown 0.5s ease-in-out;
-    display: flex;
-    justify-content: center;
-    /* Aparece deslizándose hacia abajo */
 }
 
 /* Animación para que el contenido del pop-up aparezca deslizándose */
@@ -45,46 +39,29 @@
 
 /* Estilo para cada tarea (item) */
 .div_item {
+    width: 100%;
     display: flex;
-    justify-content: space-around;
     align-items: center;
     background-color: #ffffff;
-    margin-bottom: 5px;
-    padding: 5px;
+    margin: 10px;
+    padding: 10px;
+    width: fit-content;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.2s ease-in-out;
     font-size: calc(10px + 1vmin);
 }
+
 .div_item:hover {
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.565);
 }
 
 .div_item_info {
     width: 60%;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-.button_info_item {
-    font-size: calc(5px + 2vmin);
-    min-width: 50px;
-    background-color: lightblue;
-    border: none;
-    color: white;
-    padding: 8px 12px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.2s ease-in-out;
-    width: 100%;
-}
-.button_info_item:hover {
-    background-color: rgb(0, 191, 255);
 }
 
 /* Estilo para los botones de modificar */
@@ -105,4 +82,38 @@
 
 .h3-item-checked {
     text-decoration:line-through;
+}
+
+.button_info_item {
+    font-size: calc(5px + 2vmin);
+    width: fit-content;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+.button_info_item:hover {
+    background-color: rgb(0, 191, 255);
+}
+
+.button_modify{
+    background-color: #36b8f4;
+}
+.button_modify:hover{
+    background-color: #0c5679;
+}
+
+.button_delete{
+    background-color: #c49292;
+}
+.button_delete:hover{
+    background-color: #ff0000;
+}
+
+.button_checked{
+    background-color: #6effa1;
+}
+
+.button_checked:hover{
+    background-color: #67bd12;
 }
