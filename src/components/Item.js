@@ -4,6 +4,7 @@ import {useState} from 'react';
 export function Item({item, DeleteItemToList_Callback, ModifyItemToList_Callback, checkItem_Callback}) {
     // Estado para controlar la visibilidad del popup de modificación
     const [isPopupOpen,setPopupOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     // Función para abrir el popup
     const openPopup = () => setPopupOpen(true);
@@ -15,12 +16,13 @@ export function Item({item, DeleteItemToList_Callback, ModifyItemToList_Callback
 
     function validateItem(name, quantity) {
         if (name === '') {
-            alert('Ingresa un producto con un nombre no vacío...');
+            setErrorMessage('El nombre no puede ser vacío.');
             return false;
         } else if (quantity <= 0) {
-            alert('Ingresa un producto con una cantidad mayor a 0...');
+            setErrorMessage('Ingresa una cantidad mayor a 0.');
             return false;
         }
+        setErrorMessage('');
         return true;
     }
 
@@ -38,29 +40,29 @@ export function Item({item, DeleteItemToList_Callback, ModifyItemToList_Callback
     }
 
     return (
-        <div className='div_item'>
+        <div className='item_div'>
             {console.log("El item que esta llegando a Item es: " + JSON.stringify(item))}
 
-            <div className='div_item_info'>
-                <h3   className={`${item.isChecked ? 'h3-item-checked' : ''}`}>Producto</h3>
-                <span className={`${item.isChecked ? 'h3-item-checked' : ''}`}>{item.name}</span>
-                <h3   className={`${item.isChecked ? 'h3-item-checked' : ''}`}>Cantidad</h3>
-                <span className={`${item.isChecked ? 'h3-item-checked' : ''}`}>{item.quantity}</span>
+            <div>
+                <h3   className={`${item.isChecked ? 'item_h3_checked' : ''}`}>Producto</h3>
+                <span className={`${item.isChecked ? 'item_h3_checked' : ''}`}>{item.name}</span>
+                <h3   className={`${item.isChecked ? 'item_h3_checked' : ''}`}>Cantidad</h3>
+                <span className={`${item.isChecked ? 'item_h3_checked' : ''}`}>{item.quantity}</span>
             </div>
 
-            <div className='div_item_buttons'>
+            <div>
                 {item.isChecked 
-                    ? <button className='button_info_item button_checked' onClick={() => checkItem_Callback(item.id)}><i className="fa-solid fa-arrow-turn-up"></i></button>
+                    ? <button className='item_button item_button_checked' onClick={() => checkItem_Callback(item.id)}><i className="fa-solid fa-arrow-turn-up"></i></button>
                     /* Botón para devolver item a lista de compras */
-                    : <button className='button_info_item button_checked' onClick={() => checkItem_Callback(item.id)}><i className="fa-solid fa-check"></i></button>
-                    /* Botón para confirmar item comprado */}
-
+                    : <button className='item_button item_button_checked' onClick={() => checkItem_Callback(item.id)}><i className="fa-solid fa-check"></i></button>
+                    /* Botón para confirmar item comprado */
+                }
                 
                 {/* Botón para abrir el popup de modificación */}
-                <button className='button_info_item button_modify' onClick={openPopup}><i className="fa-solid fa-pen"></i></button>
+                <button className='item_button item_button_modify' onClick={openPopup}><i className="fa-solid fa-pen"></i></button>
 
                 {/* Botón para eliminar el item */}
-                <button className='button_info_item button_delete' onClick={() => DeleteItemToList_Callback(item.id)}><i className="fa-solid fa-trash"></i></button>
+                <button className='item_button item_button_delete' onClick={() => DeleteItemToList_Callback(item.id)}><i className="fa-solid fa-trash"></i></button>
             </div>
 
             {/* Mostrar popup solo si isPopupOpen es true */}
@@ -68,26 +70,25 @@ export function Item({item, DeleteItemToList_Callback, ModifyItemToList_Callback
                 <div className={`ventana-popup ${isPopupOpen ? 'show' : ''}`}>
                     <div className="contenido-popup">
                         {/* Formulario de modificación de item */}
-                        <form id="newItemForm" onSubmit={(e) => handleSubmit(e)}>
+                        <form className="general_form" onSubmit={(e) => handleSubmit(e)}>
+
+                                <label htmlFor='nameItem'>Producto</label>
+                                <input className='general_input' name="nameItem" id='nameItem' placeholder='Producto...' maxLength={25} defaultValue={item.name}></input>
+
+                                <label htmlFor='quantityItem'>Cantidad</label>
+                                <input className='general_input' name="quantityItem" id='quantityItem' min='0' type="number" placeholder='Cantidad...' value={quantityItem} onChange={(e) => setQuantityItem(Number(e.target.value))}></input>
+
                             <div>
-                                <label htmlFor='nameItem'>Producto:</label>
-                                <input className='input_NewItem' name="nameItem" id='nameItem' placeholder='Producto...' maxLength={25} defaultValue={item.name}></input>
+                                <button type='button' onClick={() => setQuantityItem(prev => prev + 1)} className='general_buttonPlus'><i className="fa-solid fa-plus"></i></button>
+                                <button type='button' onClick={() => setQuantityItem(prev => (prev <= 0 ? 0 : prev - 1))} className='general_buttonMinus'><i className="fa-solid fa-minus"></i></button>
                             </div>
 
-                            <div >
-                                <label htmlFor='quantityItem'>Cantidad:</label>
-                                <input className='input_NewItem' name="quantityItem" id='quantityItem' min='0' type="number" placeholder='Cantidad...' value={quantityItem} onChange={(e) => setQuantityItem(Number(e.target.value))}></input>
-                            </div>
-
-                            <div className='form-group'>
-                                <button type='button' onClick={() => setQuantityItem(prev => prev + 1)} className='buttonPlus_newItem'><i className="fa-solid fa-plus"></i></button>
-                                <button type='button' onClick={() => setQuantityItem(prev => (prev <= 0 ? 0 : prev - 1))} className='buttonMinus_newItem'><i className="fa-solid fa-minus"></i></button>
-                            </div>
+                            {errorMessage && <span className="general_error_message">{errorMessage}</span>}
 
                             {/* Botón para confirmar la modificación */}
-                            <button type='submit' className='modify-button-popup'>Guardar Cambios</button>
+                            <button type='submit' className='save_button_popup'>Guardar Cambios</button>
                             {/* Botón para cerrar el popup */}
-                            <button className='cancel-button-popup' onClick={closePopup}>Cancelar</button>
+                            <button className='cancel_button_popup' onClick={closePopup}>Cancelar</button>
                         </form>
                     </div>
                 </div>

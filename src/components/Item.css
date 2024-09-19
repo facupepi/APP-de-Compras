@@ -1,96 +1,23 @@
-/* Animación para que el pop-up aparezca suavemente */
-.ventana-popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-}
-
-/* Cuando el pop-up está visible */
-.ventana-popup.show {
-    opacity: 1;
-    visibility: visible;
-}
-
-.contenido-popup {
-    border-radius: 10px;
-    animation: slideDown 0.5s ease-in-out;
-}
-
-/* Animación para que el contenido del pop-up aparezca deslizándose */
-@keyframes slideDown {
-    0% {
-        transform: translateY(-50%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-/* Estilo para cada tarea (item) */
-.div_item {
-    width: 100%;
+.item_div { 
+    font-size: calc(5px + 1.5vmin);
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #ffffff;
-    margin: 10px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.2s ease-in-out;
-    font-size: calc(10px + 1vmin);
-}
-
-.div_item:hover {
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.565);
-}
-
-.div_item_info {
-    width: 60%;
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
+    gap: 15px;
+    max-width: 400px;
+    width: 80vw;
+    background-color: #ffffff; /* Blanco para mejor contraste */
+    border-radius: 12px; /* Un poco más redondeado */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Sombra más suave */
 }
+/* Similar a general_form pero adaptado al item. Sin transicion para evitar problema con la ventana modal*/
 
-.div_item_buttons{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 10px;
-}
-
-/* Estilo para los botones de modificar */
-.modify-button-popup {
-    background-color: #4caf50;
-}
-.modify-button-popup:hover {
-    background-color: #388e3c;
-}
-
-/* Estilo para los botones de cancelar */
-.cancel-button-popup {
-    background-color: lightcoral;
-}
-.cancel-button-popup:hover {
-    background-color: red;
-}
-
-.h3-item-checked {
+.item_h3_checked {
     text-decoration:line-through;
 }
 
-.button_info_item {
+.item_button {
     font-size: calc(5px + 2vmin);
     width: 50px;
     color: white;
@@ -99,28 +26,29 @@
     transition: background-color 0.2s ease-in-out;
 }
 
-.button_info_item:hover {
+.item_button_info_item:hover {
     background-color: rgb(0, 191, 255);
 }
 
-.button_modify{
+.item_button_modify{
     background-color: #36b8f4;
 }
-.button_modify:hover{
+.item_button_modify:hover{
     background-color: #0c5679;
 }
 
-.button_delete{
+.item_button_delete{
     background-color: #c49292;
 }
-.button_delete:hover{
+.item_button_delete:hover{
     background-color: #ff0000;
 }
 
-.button_checked{
+.item_button_checked{
     background-color: #6effa1;
 }
 
-.button_checked:hover{
+.item_button_checked:hover{
     background-color: #67bd12;
 }
+

@@ -4,7 +4,7 @@ import {NewItem} from './NewItem.js';
 import { v4 as uuidv4 } from 'uuid';
 import './ActualList.css';
 
-export default function ActualList({items,updateItemsInList_Callback}) {
+export default function ActualList({items,updateItemsInList_Callback,color}) {
     const [list, setList] = useState(items);
 
     // Actualizar los ítems de la lista seleccionada cuando cambien los props
@@ -75,28 +75,33 @@ export default function ActualList({items,updateItemsInList_Callback}) {
     }
 
     return (
-        <div className='div_container_ActualList'>
-            <NewItem addNewItemToList_Callback={addNewItemToList}/>
-            <ul>
-                {/* Mapea la lista de items para mostrar cada uno en un componente 'Item'*/
-                    list.length === 0 
-                        ?
-                        <div className='div_NoItems'>
+        <div className='ActualList_div_container'>
+        
+        <NewItem addNewItemToList_Callback={addNewItemToList}/>
+        
+        <ul className='ActualList_ul' style={list.length === 0 ? {}: {backgroundColor:color} }>
+            {/* Mapea la lista de items para mostrar cada uno en un componente 'Item'*/
+                list.length === 0 
+                ?
+                    <div className='div_NoItems'>
                         <p className='p_App_NoItems' >No hay items en la lista...</p>
                         <img src='/img/loader.svg' alt='Loader' />
-                        </div>
-                        :
-                        
-                        list.map((item_map) => (
-                        <Item key={item_map.id} // Clave única para cada componente Item
-                            item={item_map} // Pasa el item como propiedad al componente
-                            DeleteItemToList_Callback={DeleteItemToList} // Pasa la función de eliminación como propiedad
-                            ModifyItemToList_Callback={ModifyItemToList} // Pasa la función de modificación como propiedad
-                            checkItem_Callback={checkItem}// Pasa la función de checkItem como propiedad
-                        />))             
-                    }
-            </ul>
-            {console.table(list)} 
-        </div>
+                    </div>
+                :      
+                    list.map((item_map) => (
+                    <li key={item_map.id} className='ActualList_li'>
+                        <Item 
+                            key={item_map.id} // Clave única para cada componente Item
+                            item={item_map}
+                            DeleteItemToList_Callback={DeleteItemToList} 
+                            ModifyItemToList_Callback={ModifyItemToList} 
+                            checkItem_Callback={checkItem}
+                        />
+                    </li>
+                    ))             
+                }
+        </ul>
+        {console.table(list)} 
+    </div>
     )
 }
