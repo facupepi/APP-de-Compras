@@ -99,11 +99,11 @@ button {
 
 .general_button_add {
   width: fit-content;
-  background-color: lightskyblue;
+  background-color: #135D86;
 }
 
 .general_button_add:hover{
-  background-color: rgb(0, 191, 255);
+  background-color: #082F45;
 }
 
 .general_form_group{
@@ -193,6 +193,7 @@ button {
   background-color: #388e3c;
 }
 
-.App_h2_selectList{
+.App_label_selectList{
   color: #282c34;
+  font-weight: bold;
 }

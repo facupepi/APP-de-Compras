@@ -43,11 +43,11 @@ export function NewItem({addNewItemToList_Callback}) {
         {/*Para evitar que al cambiar el valor, este se concatene como una cadena, se debe convertir el valor a un número. Esto se hace usando Number(e.target.value) en el manejador onChange del input de cantidad.*/}
 
       <div className='general_div_group_buttons'>
-        <button type='button' onClick={() => setQuantityItem(prev => prev + 1)} className='general_buttonPlus'><i className="fa-solid fa-plus"></i></button>
-        <button type='button' onClick={() => setQuantityItem(prev => (prev <= 0 ? 0 : prev - 1))} className='general_buttonMinus'><i className="fa-solid fa-minus"></i></button>
+        <button type='button' onClick={() => setQuantityItem(prev => prev + 1)} className='general_buttonPlus' aria-label='Boton añadir 1 a cantidad'><i className="fa-solid fa-plus"></i></button>
+        <button type='button' onClick={() => setQuantityItem(prev => (prev <= 0 ? 0 : prev - 1))} className='general_buttonMinus' aria-label='Boton quitar 1 a cantidad'><i className="fa-solid fa-minus"></i></button>
       </div>
 
-      <button type='submit' className='general_button_add' >Agregar Item <i className="fa-solid fa-note-sticky"></i></button>
+      <button type='submit' className='general_button_add' aria-label='Boton Agregar Item' >Agregar Item <i className="fa-solid fa-note-sticky"></i></button>
 
       {errorMessage && <span className="general_error_message">{errorMessage}</span>}
     </form>

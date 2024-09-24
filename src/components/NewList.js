@@ -20,9 +20,11 @@ export default function NewList({addNewListToArrayofLists_Callback}) {
       <label className='general_label' htmlFor='nameList'>Nueva Lista</label>
       <input className='general_input' name="nameList" id='nameList' placeholder='Lista...' maxLength={25} 
               value={nameList} onChange={(e) => setNameList(e.target.value)}></input>
-      <input name='color' type='color' defaultValue={'#ffffff'} onChange={(e) => setlistColor(e.target.value)}></input>
 
-      <button type='submit' className='general_button_add'>Agregar Lista <i className="fa-solid fa-clipboard-list"></i></button>
+      <label className='general_label' htmlFor='color'>Color de la lista</label>
+      <input id='color' name='color' type='color' defaultValue={'#ffffff'} onChange={(e) => setlistColor(e.target.value)}></input>
+
+      <button type='submit' className='general_button_add' aria-label='Boton Agregar'>Agregar Lista <i className="fa-solid fa-clipboard-list"></i></button>
 
       {errorMessage && <span className="general_error_message">{errorMessage}</span>}
     </form>

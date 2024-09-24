@@ -44,25 +44,25 @@ export function Item({item, DeleteItemToList_Callback, ModifyItemToList_Callback
             {console.log("El item que esta llegando a Item es: " + JSON.stringify(item))}
 
             <div>
-                <h3   className={`${item.isChecked ? 'item_h3_checked' : ''}`}>Producto</h3>
+                <h2   className={`${item.isChecked ? 'item_h3_checked' : ''}`}>Producto</h2>
                 <span className={`${item.isChecked ? 'item_h3_checked' : ''}`}>{item.name}</span>
-                <h3   className={`${item.isChecked ? 'item_h3_checked' : ''}`}>Cantidad</h3>
+                <h2   className={`${item.isChecked ? 'item_h3_checked' : ''}`}>Cantidad</h2>
                 <span className={`${item.isChecked ? 'item_h3_checked' : ''}`}>{item.quantity}</span>
             </div>
 
             <div>
                 {item.isChecked 
-                    ? <button className='item_button item_button_checked' onClick={() => checkItem_Callback(item.id)}><i className="fa-solid fa-arrow-turn-up"></i></button>
+                    ? <button className='item_button item_button_checked' onClick={() => checkItem_Callback(item.id)} aria-label='Boton Devolver Item a Lista'><i className="fa-solid fa-arrow-turn-up"></i></button>
                     /* Botón para devolver item a lista de compras */
-                    : <button className='item_button item_button_checked' onClick={() => checkItem_Callback(item.id)}><i className="fa-solid fa-check"></i></button>
+                    : <button className='item_button item_button_checked' onClick={() => checkItem_Callback(item.id)} aria-label='Boton Quitar Item de Lista'><i className="fa-solid fa-check"></i></button>
                     /* Botón para confirmar item comprado */
                 }
                 
                 {/* Botón para abrir el popup de modificación */}
-                <button className='item_button item_button_modify' onClick={openPopup}><i className="fa-solid fa-pen"></i></button>
+                <button className='item_button item_button_modify' onClick={openPopup} aria-label='Boton Modificar Item'><i className="fa-solid fa-pen"></i></button>
 
                 {/* Botón para eliminar el item */}
-                <button className='item_button item_button_delete' onClick={() => DeleteItemToList_Callback(item.id)}><i className="fa-solid fa-trash"></i></button>
+                <button className='item_button item_button_delete' onClick={() => DeleteItemToList_Callback(item.id)} aria-label='Boton Borrar Item'><i className="fa-solid fa-trash"></i></button>
             </div>
 
             {/* Mostrar popup solo si isPopupOpen es true */}
@@ -86,9 +86,9 @@ export function Item({item, DeleteItemToList_Callback, ModifyItemToList_Callback
                             {errorMessage && <span className="general_error_message">{errorMessage}</span>}
 
                             {/* Botón para confirmar la modificación */}
-                            <button type='submit' className='save_button_popup'>Guardar Cambios</button>
+                            <button type='submit' className='save_button_popup' aria-label='Boton Guardar Cambios'>Guardar Cambios</button>
                             {/* Botón para cerrar el popup */}
-                            <button className='cancel_button_popup' onClick={closePopup}>Cancelar</button>
+                            <button className='cancel_button_popup' onClick={closePopup} aria-label='Boton Cancelar'>Cancelar</button>
                         </form>
                     </div>
                 </div>
